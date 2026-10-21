@@ -29,7 +29,7 @@ if(values.help){
   host=values.host||await ask('TV IP address',process.env.LG_TV_ADDRESS||saved.host||previousHost);
   port=values.port||await ask('SSH port',String(saved.port||22));
   key=values.key||await ask('SSH private key path',saved.key||(fs.existsSync('.local/glass-tv-ed25519')?path.join(root,'.local/glass-tv-ed25519'):''));
-  if(name===undefined&&rl){const answer=await ask('Greeting names (optional; enter - for none)',privateConfig.greetingName||'');name=answer==='-'?'':answer;}
+  if(name===undefined&&rl){const answer=await ask('Greeting names (optional; enter - for none)',privateConfig.greetingName||'');if(answer==='-')name='';else if(answer)name=answer;}
  }finally{if(rl)rl.close();}
  if(key.startsWith('~/')||key.startsWith('~\\'))key=path.join(os.homedir(),key.slice(2));
  const config=validateConnection({host,port,key});
