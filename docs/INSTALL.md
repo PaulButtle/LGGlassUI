@@ -8,7 +8,7 @@ Only the LG CX configuration in [compatibility](COMPATIBILITY.md) has been teste
 
 ## 1. Download and open setup
 
-Download **LGGlassUI-v1.2.0-setup.zip** from the [latest release](https://github.com/PaulButtle/LGGlassUI/releases/latest), extract it, and open a terminal inside the extracted `LGGlassUI-v1.2.0` folder.
+Download **LGGlassUI-v1.3.0-setup.zip** from the [latest release](https://github.com/PaulButtle/LGGlassUI/releases/latest), extract it, and open a terminal inside the extracted `LGGlassUI-v1.3.0` folder.
 
 ```sh
 node setup.cjs
@@ -46,6 +46,16 @@ node setup.cjs --integrate --home-key-code 773
 **773 is the verified code for the tested CX remote, not a universal LG key code.** Other models are unverified. Integration checks for native input storage and the original LG Home, downloads two pinned/checksummed input-hook components, and backs up the previous Home binding and startup input before enabling the replacement.
 
 Press Home, switch to HDMI and back, then check standby/wake and cold startup. Native startup is firmware-specific; successful installation alone does not prove the visible startup experience. LG's own power-on sequence still takes time.
+
+## Frame Photographs as the screensaver
+
+After setup on supported CX firmware, open **Glass Home → Settings → Screensaver** and choose **Frame Photographs**. Choose **LG Fireworks** at the same control to restore the original LG view. This option is independent of the Home-button replacement.
+
+The screensaver uses the same uploaded photographs, image fit and change interval as Frame. Images are dimmed to 55% opacity and gently move. Manual Frame's session duration and brightness remain separate: the native screensaver continues until LG dismisses it or changes power state. LG retains control of idle timing, remote wake, partial-video handling and panel protection. It will only appear where LG normally starts its screensaver; it does not force a screensaver over playing video or HDMI.
+
+An empty collection uses the bundled landscape. If the photo layer cannot load, the original LG view remains visible. The setting is saved on the TV and reapplied by the normal webOSbrew startup hook.
+
+Compatibility is deliberately narrow: the current feature accepts the exact LG screensaver revision verified on the CX firmware listed in [compatibility](COMPATIBILITY.md). Other firmware, a missing controller or another custom screensaver leaves the option unavailable. Setup does not overwrite another screensaver overlay.
 
 ## Updates and personalisation
 

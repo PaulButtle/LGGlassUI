@@ -17,11 +17,22 @@ This command:
 1. Creates `/var/lib/glass-home/disabled` so the controller stops changing startup preferences.
 2. Unregisters the Glass Home input and restores the saved original startup input.
 3. Restores the previous Home binding, or clears the custom binding if there was none.
-4. Opens the original LG Home.
+4. Restores the original LG screensaver by removing only LGGlassUI’s overlay.
+5. Opens the original LG Home.
 
 After a cold restart, the disabled flag prevents custom input injection and startup preference maintenance. The photo service and stored photos remain available. Recovery works without the dashboard UI.
 
 If restoring the native input reports an error, the recovery script still restores the Home binding and attempts to open stock Home. Use your independent SSH connection to inspect the error before re-enabling.
+
+## Restore only the screensaver
+
+Choose **Settings → Screensaver → LG Fireworks**. If the dashboard is unavailable, use:
+
+```sh
+node scripts/ssh.cjs '/usr/bin/node /media/internal/glass-home/integration/screensaver-native.js disable'
+```
+
+This saves the LG choice, removes the photo overlay and closes a cached screensaver instance so the next activation reads the original LG source. It leaves Home/startup integration and photos alone. The original system file is never overwritten.
 
 ## Re-enable
 
@@ -41,6 +52,8 @@ Back up `.local/` securely. It contains the pinned host key, device configuratio
 | --- | --- |
 | `/var/lib/glass-home/keybinds.before` | Original Home/input-hook configuration |
 | `/var/lib/glass-home/lastinput.before.json` | Original startup input |
+| `/var/lib/glass-home/screensaver-main.before.qml` | Private local copy of the verified LG screensaver source |
+| `/media/internal/glass-home/photos/screensaver.json` | Screensaver choice and bounded display preferences |
 | `/var/lib/glass-home/disabled` | Independent replacement kill switch |
 | `/media/internal/glass-home/photos/` | Uploaded photographs and collection index |
 

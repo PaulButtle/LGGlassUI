@@ -1,5 +1,13 @@
 # Changelog
 
+## 1.3.0 — 2026-10-21
+
+- Choose **LG Fireworks** or **Frame Photographs** in Glass Home Settings.
+- Native screensaver photographs use your local collection with gentle movement, soft dimming and your Frame fit/interval. LG retains idle and remote-wake control.
+- Reversible, fingerprint-guarded overlay for the tested CX firmware; original LG source is never overwritten or distributed.
+- Authenticated settings API, a separate root watcher and independent screensaver recovery.
+- Your greeting, photo collection and Home/startup configuration are preserved during updates.
+
 ## 1.2.0 — 2026-10-21
 
 ### A simpler way home

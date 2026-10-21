@@ -9,6 +9,7 @@ start_once() {
   echo $! > "$pidfile"
 }
 start_once photos /usr/bin/node "$BASE/service/server.js"
+start_once screensaver /usr/bin/node "$BASE/integration/screensaver-controller.js"
 [ -f /var/lib/glass-home/disabled ] && exit 0
 start_once controller /usr/bin/node "$BASE/integration/controller.js"
 # The binary hook modifies process memory only. No system partition is written.

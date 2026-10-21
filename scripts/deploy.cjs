@@ -29,7 +29,7 @@ function upload(dir){
 }
 upload('service');upload('integration');
 ssh('umask 077; cat > /media/internal/glass-home/service/config.json.new && mv /media/internal/glass-home/service/config.json.new /media/internal/glass-home/service/config.json',JSON.stringify(config));
-ssh('for name in photos controller; do p=/tmp/glass-$name.pid; if [ -f "$p" ]; then pid=$(cat "$p"); case "$pid" in *[!0-9]*|"") continue;; esac; case "$(cat /proc/$pid/cmdline 2>/dev/null)" in *glass-home*) kill "$pid";; esac; rm -f "$p"; fi; done; /var/lib/webosbrew/init.d/50-glass-home');
+ssh('for name in photos controller screensaver; do p=/tmp/glass-$name.pid; if [ -f "$p" ]; then pid=$(cat "$p"); case "$pid" in *[!0-9]*|"") continue;; esac; case "$(cat /proc/$pid/cmdline 2>/dev/null)" in *glass-home*) kill "$pid";; esac; rm -f "$p"; fi; done; /var/lib/webosbrew/init.d/50-glass-home');
 // The native installer can reopen an updated app before personalization is written.
 // Close that process so its next launch reads the installed private configuration.
 const closed=JSON.parse(ssh('sleep 3 | luna-send -n 1 -w 2500 luna://com.webos.applicationManager/closeByAppId \'{"id":"com.paulbuttle.glasshome"}\''));

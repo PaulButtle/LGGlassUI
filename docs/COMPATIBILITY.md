@@ -20,6 +20,12 @@ Other models, regions, firmware versions and native app IDs are unverified.
 - Automated regressions cover navigation, stored preferences, uploads, quotas, JPEG decoding, native startup preference handling, greeting boundaries, unique installation keys, SSH input validation and release integrity.
 - The guided installer was exercised from macOS. Linux runs the automated suite in CI. The Node/OpenSSH Windows path is provided but has not been tested on a Windows computer.
 
+## Photograph screensaver
+
+Version 1.3.0 adds an optional native photograph layer. On the tested CX, it rendered inside the existing LG screensaver window, and the owner confirmed that a normal remote button returned to the previous screen. Switching back to LG Fireworks restored the original QML SHA-256 and the original Fireworks display. Independent SSH screensaver recovery was also exercised.
+
+The accepted stock `qml/main.qml` SHA-256 is `5f41317ded2294fc61407f8527d76de93df65d4566c9c2fd2cfcf6e2f0e9894d`. This is a compatibility guard, not a claim about other webOS versions. A different hash or an existing foreign bind mount is not modified. Native idle timing, video/PIG policy and OLED protection remain controlled by LG; no service-menu protection settings are changed.
+
 ## Upstream dependencies
 
 | Component | Pinned revision / version |

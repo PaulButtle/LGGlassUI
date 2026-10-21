@@ -12,3 +12,26 @@ test('an interrupted upload cannot create a photo or index entry',()=>withServer
 test('rejects a JPEG with a declared scan length beyond its bytes',()=>withServer(async u=>{const bad=Buffer.from(jpeg),scan=bad.indexOf(Buffer.from([255,218]));assert.ok(scan>0);bad.writeUInt16BE(65535,scan+2);assert.equal((await fetch(u+'/api/photos',{method:'POST',headers,body:bad})).status,400);assert.deepEqual((await(await fetch(u+'/api/photos',{headers})).json()).photos,[]);}));
 test('rejects a JPEG whose scan is truncated even when EOI is appended',()=>withServer(async u=>{const scan=jpeg.indexOf(Buffer.from([255,218])),bad=Buffer.concat([jpeg.slice(0,scan+5),Buffer.from([255,217])]);assert.equal((await fetch(u+'/api/photos',{method:'POST',headers,body:bad})).status,400);}));
 test('incomplete parallel uploads are bounded and an aborted slot is released',()=>withServer(async u=>{const http=require('http'),held=[];try{for(let n=0;n<2;n++){const req=http.request(u+'/api/photos',{method:'POST',headers:Object.assign({},headers,{'Content-Length':jpeg.length})});req.on('error',()=>{});req.write(jpeg.slice(0,10));held.push(req);}await new Promise(r=>setTimeout(r,30));assert.equal((await fetch(u+'/api/photos',{method:'POST',headers,body:jpeg})).status,429);held[0].destroy();await new Promise(r=>setTimeout(r,20));assert.equal((await fetch(u+'/api/photos',{method:'POST',headers,body:jpeg})).status,201);}finally{held.forEach(r=>r.destroy());}}));
+test('screensaver changes require authentication, supported integration and bounded settings',()=>withServer(async(u,dir)=>{
+ const jsonHeaders=Object.assign({},headers,{'Content-Type':'application/json'});
+ assert.equal((await fetch(u+'/api/screensaver')).status,401);
+ assert.equal((await fetch(u+'/api/screensaver',{method:'POST',headers:jsonHeaders,body:'{"mode":"frame"}'})).status,503);
+ assert.equal((await fetch(u+'/api/screensaver',{method:'POST',headers:jsonHeaders,body:'{"mode":"lg","command":"bad"}'})).status,400);
+ assert.equal((await fetch(u+'/api/screensaver',{method:'POST',headers:jsonHeaders,body:'{"mode":"lg"}'})).status,200);
+ assert.equal(JSON.parse(fs.readFileSync(path.join(dir,'screensaver.json'))).mode,'lg');
+}));
+test('supported screensaver choice persists and a stale controller cannot enable it',async()=>{
+ const statusDir=fs.mkdtempSync(path.join(os.tmpdir(),'glass-status-')),file=path.join(statusDir,'status.json');
+ try{
+  fs.writeFileSync(file,JSON.stringify({available:true,applied:'lg',updatedAt:Date.now()}));
+  await withServer(async(u,dir)=>{
+   const h=Object.assign({},headers,{'Content-Type':'application/json'});
+   const response=await fetch(u+'/api/screensaver',{method:'POST',headers:h,body:JSON.stringify({mode:'frame',fit:'cover',interval:30,dim:1})});
+   assert.equal(response.status,200);assert.equal((await response.json()).settings.dim,.55);
+   assert.equal(JSON.parse(fs.readFileSync(path.join(dir,'screensaver.json'))).mode,'frame');
+   fs.writeFileSync(file,JSON.stringify({available:true,applied:'lg',updatedAt:Date.now()-100000}));
+   assert.equal((await fetch(u+'/api/screensaver',{method:'POST',headers:h,body:'{"mode":"frame"}'})).status,503);
+   assert.equal((await fetch(u+'/api/screensaver',{method:'POST',headers:h,body:'{"mode":"lg"}'})).status,200);
+  },{screensaverStatusFile:file});
+ }finally{fs.rmSync(statusDir,{recursive:true,force:true});}
+});

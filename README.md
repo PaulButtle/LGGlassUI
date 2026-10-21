@@ -72,7 +72,7 @@ npm test
 
 **Full Home-button and startup integration requires a rooted TV with webOSbrew.** This repository does not root your television or include a universal root exploit.
 
-1. Download and extract **LGGlassUI-v1.2.0-setup.zip** from the [latest release](https://github.com/PaulButtle/LGGlassUI/releases/latest).
+1. Download and extract **LGGlassUI-v1.3.0-setup.zip** from the [latest release](https://github.com/PaulButtle/LGGlassUI/releases/latest).
 2. Open a terminal in the extracted folder and run `node setup.cjs`.
 3. Enter your TV address, SSH port/key and optional greeting names.
 
@@ -99,7 +99,11 @@ Other models and firmware versions are **unverified**. Native APIs, app IDs and 
 
 The uploader converts JPEG, PNG and WebP images to suitably sized JPEGs before uploading. Your collection stays on the television: up to **100 photographs / 256 MiB**, with no cloud account.
 
-Frame supports 15-, 30- and 60-minute sessions. Brightness is a display overlay, and LG's existing panel-protection settings remain unchanged.
+Frame supports 15-, 30- and 60-minute manual sessions. Brightness is a display overlay, and LG's existing panel-protection settings remain unchanged.
+
+**Your photographs can be the screensaver, too.** On the supported CX firmware, choose **Settings → Screensaver → Frame Photographs**. Your uploaded collection replaces the Fireworks view with softly dimmed, gently moving images. The screensaver follows your Frame interval and fit; LG still controls idle timing and remote wake-up. Select **LG Fireworks** to restore the original view. No photographs yet? The bundled landscape is available.
+
+This option is guarded by the tested LG screensaver fingerprint. Unsupported firmware keeps its original screensaver. See [setup and compatibility](docs/INSTALL.md#frame-photographs-as-the-screensaver).
 
 | Remote control | Action |
 | --- | --- |
@@ -136,6 +140,7 @@ Built by [Paul Buttle](https://github.com/PaulButtle).
 
 - [webOSbrew](https://www.webosbrew.org/) for the homebrew foundation.
 - [LG Input Hook](https://github.com/Simon34545/lginputhook) and [inputhookpp](https://github.com/sundermann/inputhookpp) for native remote interception. The installer uses pinned, checksum-verified binaries; they are not redistributed in this repository.
+- [webOSbrew custom-screensaver](https://github.com/webosbrew/custom-screensaver) for documenting the reversible QML bind-mount approach. LG firmware source is transformed only on the owner’s TV and is not distributed.
 - [jpeg-js](https://github.com/jpeg-js/jpeg-js) for bounded server-side JPEG decoding. Its BSD licence is preserved alongside the vendored source.
 - The bundled landscape was generated for this project.
 

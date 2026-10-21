@@ -3,3 +3,5 @@
 .brand.plex svg{height:2.25vw;width:1.4vw;margin-left:.1vw}
 
 #greeting{font-size:1.05vw;letter-spacing:.045em;font-weight:400;color:rgba(240,246,245,.85)}
+
+.action:disabled{opacity:.5;cursor:default;transform:none}.action:disabled:hover{background:#ffffff08;border-color:#ffffff25}

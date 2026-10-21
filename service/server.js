@@ -1,7 +1,7 @@
 'use strict';
 // Node 8 compatible. This service has no shell-execution or general filesystem API.
 var http=require('http'),fs=require('fs'),path=require('path'),crypto=require('crypto'),url=require('url'),os=require('os');
-var decodeJpeg=require('./vendor/jpeg-decoder');
+var decodeJpeg=require('./vendor/jpeg-decoder'),screensaver=require('./screensaver-settings.js');
 var ID=/^[a-f0-9]{24}$/;
 function jpegSize(b){
   if(b.length<25||b[0]!==255||b[1]!==216||b[b.length-2]!==255||b[b.length-1]!==217)throw Error('Choose a valid JPEG image.');
@@ -56,6 +56,18 @@ function createServer(options){
     if(pathname.indexOf('/photos/')===0&&req.method==='GET')supplied=supplied||parsed.searchParams.get('token');
     if(!secureEqual(typeof supplied==='string'?supplied:'',token)){respond(res,401,{error:'Enter the access key shown on your TV.'});return;}
     try{
+      if(pathname==='/api/screensaver'){
+        var statusFile=options.screensaverStatusFile||path.join(__dirname,'screensaver-status.json');
+        if(req.method==='GET'){respond(res,200,{settings:screensaver.read(dir),status:screensaver.status(statusFile)});return;}
+        if(req.method==='POST'){
+          body(req,res,1024,function(bytes){try{
+            var value=screensaver.validate(JSON.parse(bytes.toString()));
+            if(value.mode==='frame'&&!screensaver.status(statusFile).available){respond(res,503,{error:screensaver.status(statusFile).error||'Screensaver integration unavailable.'});return;}
+            var temporary=path.join(dir,'screensaver.json.tmp');fs.writeFileSync(temporary,JSON.stringify(value),{mode:0o600});fs.renameSync(temporary,path.join(dir,'screensaver.json'));
+            respond(res,200,{settings:value,status:screensaver.status(statusFile)});
+          }catch(e){respond(res,400,{error:e.code?'Could not save screensaver settings.':e.message});}});return;
+        }
+      }
       if(pathname==='/api/photos'&&req.method==='GET'){respond(res,200,{photos:state.photos,maxPhotos:maxPhotos,maxTotal:maxTotal});return;}
       if(pathname==='/api/network'&&req.method==='GET'){var addresses=[];var ifaces=os.networkInterfaces();Object.keys(ifaces).forEach(function(k){ifaces[k].forEach(function(n){if(n.family==='IPv4'&&!n.internal)addresses.push(n.address);});});respond(res,200,{addresses:addresses,port:server.address().port});return;}
       if(pathname==='/api/photos'&&req.method==='POST'){

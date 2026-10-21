@@ -1,6 +1,6 @@
 # Architecture
 
-LGGlassUI has three deliberately separate parts.
+LGGlassUI separates the TV interface, photo service and privileged integration.
 
 ```mermaid
 flowchart LR
@@ -57,3 +57,13 @@ Source, tests, the generated landscape and curated documentation are public. Dev
 ## Setup and releases
 
 The release ZIP contains a public IPK, the app/service/integration sources and a dependency-free Node setup wizard. An SHA-256 manifest detects changes before setup connects. SSH uses a pinned host key and the user’s existing private key; no password or key material is sent to GitHub. Fresh installations receive a random photo key, while updates retrieve the existing key over authenticated SSH. Home and native startup integration are opt-in on first installation.
+
+## Native photograph screensaver
+
+The unprivileged photo API accepts only `lg`/`frame`, bounded interval/fit/brightness values and authenticated requests at `/api/screensaver`. It writes a small settings file beside the photos. It cannot mount files or run commands.
+
+A separate root watcher validates that data, checks the stock LG QML fingerprint and applies a bind mount at the fixed native screensaver path. The mount and independent SSH recovery are serialized with `flock`. Foreign overlays are left untouched. A root-owned status file in the service directory is readable by the photo process; it contains no secrets.
+
+The on-TV transformation adds a loader to LG's own window and suppresses the stock visual layer only when a photograph has loaded and LG reports its full-screen screensaver state. LG's application lifecycle, input handlers and partial-video logic remain in place. The original QML is never overwritten or included in the public repository. Selecting LG Fireworks unmounts the overlay and closes the cached screensaver instance.
+
+The original photo layer reads only fixed local collection/settings paths, restricts photo IDs to the existing hexadecimal format, bounds decoding to the TV surface size and uses gentle motion at 55% opacity. It makes no internet requests and contains no photo access key.

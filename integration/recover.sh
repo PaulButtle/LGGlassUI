@@ -2,6 +2,7 @@
 set -eu
 mkdir -p /var/lib/glass-home
 touch /var/lib/glass-home/disabled
+/usr/bin/node /media/internal/glass-home/integration/screensaver-native.js disable || echo "Screensaver restore needs attention." >&2
 if [ -f /var/lib/glass-home/lastinput.before.json ]; then
   /usr/bin/node /media/internal/glass-home/integration/configure-startup.js disable || echo 'Native startup restore needs attention; Home recovery continues.' >&2
 fi
