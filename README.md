@@ -34,6 +34,8 @@ Plex · YouTube · Netflix · BBC iPlayer · Prime Video · Disney+ · Apple TV 
 
 Change the names, order and installed app IDs in [`app/config.js`](app/config.js). The shortcuts open the TV's native apps; LGGlassUI does not proxy their content or manage streaming accounts.
 
+**Straight home.** On the tested LG CX, Glass Home is registered as LG's native startup input. There is no extra 12-second launch timer or HDMI-first handoff. Normal HDMI viewing remains available, and the original LG Home stays accessible for recovery. The television's own power-on sequence still takes time.
+
 > The dashboard has no advertising. Streaming services and the retained LG recovery interface still control their own content and ads.
 
 ## Small by design

@@ -15,6 +15,8 @@ Other models, regions, firmware versions and native app IDs are unverified.
 - Original LG Home remains installed and was visually checked. Independent recovery restores stock Home routing.
 - Root SSH survives a cold restart, password login is disabled, normal telnet is closed, and the photo process runs without root privileges.
 - Native startup registration was tested with the old delayed controller stopped: after standby from HDMI, the first boot launch and foreground application was Glass Home. HDMI was only preloaded in the background. The startup trace contained no HDMI foreground transition.
+- After the final restart/power-on, Glass Home was foreground without a manual launch; native startup registration, root access and both services persisted. Selecting HDMI during normal use remained foreground while the watcher restored only the next-start preference. Recovery and re-enabling were exercised with version 1.1.0.
+- The public provisioning command was exercised on the existing installation. 21 automated tests passed, including native-request lifecycle and failure handling. A completely fresh TV installation remains unverified.
 - Automated regressions cover navigation, stored preferences, uploads, quotas, JPEG decoding and native startup preference handling.
 
 ## Upstream dependencies
