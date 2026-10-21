@@ -1,0 +1,38 @@
+# Compatibility and verification
+
+## Tested device
+
+LG OLED65CX5LB, firmware 04.64.00, webOS SDK 5.6.2, Chromium 68.0.3440.106, Node 8.12.0. App surface: 1920 × 1080. Verification date: 21 October 2026.
+
+Other models, regions, firmware versions and native app IDs are unverified.
+
+## Verified
+
+- The physical Home key opens Glass Home; key code 773 on this remote.
+- All nine default application IDs, TV Settings and stock LG Home return successful native launch responses. Plex was also checked as foreground. This does not certify account access or media playback in every service.
+- The installed UI renders correctly on the TV. JavaScript readiness measured roughly 0.3–0.4 seconds; this excludes complete TV boot and image decoding.
+- A real uploaded 1672 × 941 photograph renders in Frame. The collection survives restart. Upload conversion, authentication, ordering and removal are covered by service/browser checks.
+- Original LG Home remains installed and was visually checked. Independent recovery restores stock Home routing.
+- Root SSH survives a cold restart, password login is disabled, normal telnet is closed, and the photo process runs without root privileges.
+- Native startup registration was tested with the old delayed controller stopped: after standby from HDMI, the first boot launch and foreground application was Glass Home. HDMI was only preloaded in the background. The startup trace contained no HDMI foreground transition.
+- Automated regressions cover navigation, stored preferences, uploads, quotas, JPEG decoding and native startup preference handling.
+
+## Upstream dependencies
+
+| Component | Pinned revision / version |
+| --- | --- |
+| Homebrew Channel used on the tested TV | 0.7.3 |
+| LG Input Hook binary source | `Simon34545/lginputhook` at `a607900118e088208f83f0f0c7a5a5b922092594` |
+| Related inputhookpp source inspected | `sundermann/inputhookpp` at `2e808c1ca4fbe036f1ed7eac942c08245c283256` |
+| JPEG decoder | `jpeg-js` 0.4.4; upstream decoder blob `1982481806e5fe29bd38cb008297f35731ade20b` |
+
+The native hook binaries are pinned and checksummed, not rebuilt or formally audited here. They are downloaded separately by the provisioning tool and are not committed to this repository.
+
+- `ezinject`: SHA-256 `d2def5b3f68a415cf5a4a747ab70115e70a82f721bafbcc0d9c5a7bd5c161160`
+- `libinputhookpp.so`: SHA-256 `de2c155a598827e7b31b2fa2cfe80e1cc7ad9347ccdd16f1c2aeb9bc0db1b49d`
+
+Native input registration follows the mechanism described by [webOSbrew's autostart project](https://github.com/webosbrew/webosbrew-autostart) and the [openlgtv input-app notes](https://gist.github.com/Informatic/1983f2e501444cf1cbd182e50820d6c1). The existing Homebrew root startup is retained; this project does not replace it.
+
+## Limits
+
+The app cannot remove ads inside streaming services. Root compatibility can change with firmware updates. Display startup timing depends on LG's native boot process; there is no extra 12-second Glass Home timer in version 1.1.0. OLED maintenance and screen protection are left intact.

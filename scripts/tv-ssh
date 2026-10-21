@@ -1,0 +1,8 @@
+#!/bin/sh
+set -eu
+ROOT=$(CDPATH='' cd -- "$(dirname -- "$0")/.." && pwd)
+cd "$ROOT"
+TV_ADDRESS=${LG_TV_ADDRESS:-$(cat "$ROOT/.local/tv-address" 2>/dev/null || true)}
+[ -n "$TV_ADDRESS" ] || { echo 'Set LG_TV_ADDRESS or save the TV address in .local/tv-address.' >&2; exit 1; }
+case "$TV_ADDRESS" in *[!a-zA-Z0-9.:-]*) echo 'Invalid TV address.' >&2; exit 1;; esac
+exec ssh -i "$ROOT/.local/glass-tv-ed25519" -o ConnectTimeout=5 -o ConnectionAttempts=1 -o IdentitiesOnly=yes -o StrictHostKeyChecking=yes -o UserKnownHostsFile=.local/tv-known-hosts "root@$TV_ADDRESS" "$@"

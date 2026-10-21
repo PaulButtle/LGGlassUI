@@ -1,0 +1,13 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="referrer" content="no-referrer"><meta http-equiv="Content-Security-Policy" content="default-src 'self' file: data: blob:; script-src 'self' file:; style-src 'self' file: 'unsafe-inline'; connect-src 'self' http://127.0.0.1:18765; img-src 'self' file: data: blob: http://127.0.0.1:18765"><title>Glass Home</title><link rel="stylesheet" href="style.css"></head><body>
+<div class="landscape" aria-hidden="true"></div><div class="scrim" aria-hidden="true"></div>
+<main id="home">
+ <header><div class="identity"><span class="home-mark" aria-hidden="true">⌂</span><span>Home</span></div><nav aria-label="Utilities"><button class="pill" id="frame-button"><span class="line-icon">▧</span> Frame</button><button class="pill icon-button" id="settings-button" aria-label="Settings"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 3h6l.6 2.5 2 1.2 2.5-.8 3 5.2-1.9 1.8v2.3l1.9 1.8-3 5.2-2.5-.8-2 1.2L15 25H9l-.6-2.4-2-1.2-2.5.8-3-5.2 1.9-1.8v-2.3L.9 11l3-5.2 2.5.8 2-1.2L9 3z" transform="translate(2 0) scale(.8)"/><circle cx="11.6" cy="11.2" r="3.1"/></svg></button></nav></header>
+ <section class="clock-block" aria-label="Time and date"><div class="eyebrow" id="greeting">GOOD EVENING</div><time id="clock">20:00</time><div id="date"></div></section>
+ <section class="apps-section" aria-labelledby="apps-heading"><div class="section-top"><h1 id="apps-heading">Your favourites</h1><span class="remote-hint"><span class="ok-key">OK</span> to open</span></div><div class="glass-shelf"><div class="apps" id="apps"></div></div></section>
+ <footer><span class="quiet-dot"></span><span id="footer-note">A little less noise.</span><span class="footer-right">GLASS HOME</span></footer>
+</main>
+<section id="frame" class="frame hidden" aria-label="Photo frame"><img id="frame-image" alt="Your photo"><div id="frame-help" class="frame-help">← → &nbsp; Change photo <span>OK &nbsp; Pause</span><span>Back &nbsp; Return home</span></div></section>
+<div id="modal" class="modal hidden" role="dialog" aria-modal="true" aria-labelledby="modal-title"><div class="modal-card"><div class="modal-head"><div><div class="eyebrow" id="modal-kicker">MAKE YOURSELF AT HOME</div><h2 id="modal-title">Settings</h2></div><button id="modal-close" class="close-button" aria-label="Close">×</button></div><div id="modal-content"></div></div></div>
+<div id="toast" class="toast hidden" role="status"></div>
+<script src="config.js"></script><script src="config.local.js"></script><script src="core.js"></script><script src="platform.js"></script><script src="app.js"></script>
+</body></html>

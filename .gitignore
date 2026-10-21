@@ -1,0 +1,14 @@
+.local/
+node_modules/
+dist/
+*.ipk
+.DS_Store
+app/config.local.js
+.env
+.env.*
+*.log
+# Private device/session evidence retained locally, never published.
+docs/DEVICE-STATUS.md
+docs/PROGRESS.md
+docs/superpowers/
+research/
