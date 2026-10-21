@@ -13,5 +13,5 @@ jobs:
       - run: npm test
       - name: Syntax checks
         run: |
-          for file in app/*.js integration/*.js scripts/*.cjs service/*.js; do node --check "$file"; done
+          for file in setup.cjs app/*.js integration/*.js scripts/*.cjs scripts/lib/*.cjs service/*.js; do node --check "$file"; done
           for file in integration/*.sh scripts/tv-ssh; do sh -n "$file"; done

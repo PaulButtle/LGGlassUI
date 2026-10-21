@@ -9,6 +9,10 @@
 A quiet, glass-inspired home screen for LG webOS TVs.<br>
 Your favourite apps, your photographs, and room to breathe.
 
+[**Download the setup ZIP →**](https://github.com/PaulButtle/LGGlassUI/releases/latest)
+
+![Release](https://img.shields.io/github/v/release/PaulButtle/LGGlassUI?style=flat-square&color=6eaaa8) ![Checks](https://github.com/PaulButtle/LGGlassUI/actions/workflows/ci.yml/badge.svg)
+
 [Explore the interface](#made-for-the-living-room) · [Try it locally](#try-it-locally) · [Install on your TV](docs/INSTALL.md) · [Recovery](docs/RECOVERY.md)
 
 <img src="docs/assets/dashboard.png" alt="Glass Home running on an LG CX: a dusk landscape, a large clock, and nine translucent app tiles" width="100%">
@@ -29,6 +33,8 @@ Glass Home keeps the screen calm: a full-screen landscape, a legible clock and a
 | Original LG Home available for recovery | Pause, previous/next and timed sessions |
 | Bundled assets; no CDN or web-font requests | LG panel protection stays enabled |
 
+Your optional greeting follows the time of day: **Good evening, Alex and Sam**. Names stay in your private installation settings.
+
 **The default shelf**<br>
 Plex · YouTube · Netflix · BBC iPlayer · Prime Video · Disney+ · Apple TV · ITV Hub · Spotify
 
@@ -40,7 +46,7 @@ Change the names, order and installed app IDs in [`app/config.js`](app/config.js
 
 ## Small by design
 
-The TV app is plain HTML, CSS and JavaScript, with bundled imagery and no runtime internet dependencies. The packaged dashboard is approximately **308 KB**. On the tested LG CX, JavaScript UI readiness measured approximately **0.3–0.4 seconds**; this is not a measurement of television power-on time or complete image decoding.
+The TV app is plain HTML, CSS and JavaScript, with bundled imagery and no runtime internet dependencies. The packaged dashboard is approximately **320 KB**. On the tested LG CX, JavaScript UI readiness measured approximately **0.3–0.4 seconds**; this is not a measurement of television power-on time or complete image decoding.
 
 The companion photo service uses Node's built-in HTTP server. A separate, small privileged component handles native startup preferences and the Home button. Photos and ordinary image handling run without root privileges.
 
@@ -66,7 +72,15 @@ npm test
 
 **Full Home-button and startup integration requires a rooted TV with webOSbrew.** This repository does not root your television or include a universal root exploit.
 
-Follow the [installation guide](docs/INSTALL.md) for prerequisites, local configuration, packaging and deployment. Start with a working SSH recovery connection and keep the original LG Home installed.
+1. Download and extract **LGGlassUI-v1.2.0-setup.zip** from the [latest release](https://github.com/PaulButtle/LGGlassUI/releases/latest).
+2. Open a terminal in the extracted folder and run `node setup.cjs`.
+3. Enter your TV address, SSH port/key and optional greeting names.
+
+Setup installs the dashboard and photo service, then opens Glass Home. You need **Node.js 22+**, **OpenSSH** and a working **root SSH key**. No Git, npm install or LG developer CLI required. Each installation gets its own private photo key.
+
+Once the dashboard works on your TV, enable Home-button and startup replacement using the [installation guide](docs/INSTALL.md). Original LG Home remains available. The release includes a standalone public IPK and SHA-256 checksums too.
+
+[Full setup & troubleshooting →](docs/INSTALL.md) &nbsp; [What's new →](CHANGELOG.md)
 
 | Tested hardware | Runtime |
 | --- | --- |
@@ -114,7 +128,7 @@ tests/               Navigation, photo API and integration regressions
 docs/                Installation, compatibility, recovery and screenshots
 ```
 
-Device addresses, SSH keys, access tokens, backups and generated TV packages belong in ignored local files. Never commit `.local/` or `dist/`: packaged installations contain a private photo access key.
+Device addresses, SSH keys, household names and access tokens stay in ignored `.local/` files and on your TV. Public release packages are generic; locally built packages in `dist/private/` contain your private photo key and must not be shared. See [building a release](docs/RELEASING.md).
 
 ## Credits & licence
 

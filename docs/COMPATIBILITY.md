@@ -16,8 +16,9 @@ Other models, regions, firmware versions and native app IDs are unverified.
 - Root SSH survives a cold restart, password login is disabled, normal telnet is closed, and the photo process runs without root privileges.
 - Native startup registration was tested with the old delayed controller stopped: after standby from HDMI, the first boot launch and foreground application was Glass Home. HDMI was only preloaded in the background. The startup trace contained no HDMI foreground transition.
 - After the final restart/power-on, Glass Home was foreground without a manual launch; native startup registration, root access and both services persisted. Selecting HDMI during normal use remained foreground while the watcher restored only the next-start preference. Recovery and re-enabling were exercised with version 1.1.0.
-- The public provisioning command was exercised on the existing installation. 21 automated tests passed, including native-request lifecycle and failure handling. A completely fresh TV installation remains unverified.
-- Automated regressions cover navigation, stored preferences, uploads, quotas, JPEG decoding and native startup preference handling.
+- The v1.2.0 setup ZIP was extracted into a fresh computer folder and used to update the existing TV installation. The installer recovered the existing photo key over SSH; both its hash and the complete photo-index hash remained unchanged. Existing native startup and Home integration were preserved. A completely fresh TV installation remains unverified.
+- Automated regressions cover navigation, stored preferences, uploads, quotas, JPEG decoding, native startup preference handling, greeting boundaries, unique installation keys, SSH input validation and release integrity.
+- The guided installer was exercised from macOS. Linux runs the automated suite in CI. The Node/OpenSSH Windows path is provided but has not been tested on a Windows computer.
 
 ## Upstream dependencies
 

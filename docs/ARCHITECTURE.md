@@ -46,10 +46,14 @@ The TV service targets Node 8.12. `jpeg-js` 0.4.4 is vendored with its BSD licen
 
 ## Network boundary
 
-The photo manager is HTTP on the home LAN. The access key is a capability: anyone who obtains it and can reach the TV can manage the collection. Use a trusted network; do not expose this port to the internet. The TV app includes its installation key, so generated IPKs are private artifacts.
+The photo manager is HTTP on the home LAN. The access key is a capability: anyone who obtains it and can reach the TV can manage the collection. Use a trusted network; do not expose this port to the internet. Public release IPKs contain no key. Setup writes the installation key directly into the installed app on the TV after packaging. Private developer builds in `dist/private/` do include the key and must not be shared.
 
 Administrative SSH is separate and uses pinned host verification and a private key. The controller has no network listener. Original Home and independent SSH recovery remain available.
 
 ## Local and public files
 
 Source, tests, the generated landscape and curated documentation are public. Device-specific configuration, key material, packages, backups, diagnostic captures and firmware binaries are not part of the public repository.
+
+## Setup and releases
+
+The release ZIP contains a public IPK, the app/service/integration sources and a dependency-free Node setup wizard. An SHA-256 manifest detects changes before setup connects. SSH uses a pinned host key and the user’s existing private key; no password or key material is sent to GitHub. Fresh installations receive a random photo key, while updates retrieve the existing key over authenticated SSH. Home and native startup integration are opt-in on first installation.

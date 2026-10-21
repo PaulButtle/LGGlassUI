@@ -1,5 +1,5 @@
-// Public defaults. Packaging adds a private config.local.js with the photo access key.
-window.DashboardConfig={port:18765,token:'',tvAddress:'TV_IP_ADDRESS',originalHome:'com.webos.app.home',apps:[
+// Public defaults. Setup writes private settings only on your own TV.
+window.DashboardConfig={greetingName:'',port:18765,token:'',tvAddress:'TV_IP_ADDRESS',originalHome:'com.webos.app.home',apps:[
  {id:'cdp-30',name:'Plex',brand:'plex'},
  {id:'youtube.leanback.v4',name:'YouTube',brand:'youtube'},
  {id:'netflix',name:'Netflix',brand:'netflix'},

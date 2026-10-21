@@ -20,7 +20,7 @@
  function focusApp(){apps.children[selected].focus();}
  function toast(text){$('toast').textContent=text;$('toast').classList.remove('hidden');clearTimeout(toastTimer);toastTimer=setTimeout(function(){$('toast').classList.add('hidden');},5000);}
  function launch(id,name){toast('Opening '+name+'…');platform.launch(id).then(function(){$('toast').classList.add('hidden');},function(e){toast(e.message);});}
- function clock(){var d=new Date(),hour=d.getHours();$('clock').textContent=('0'+hour).slice(-2)+':'+('0'+d.getMinutes()).slice(-2);$('clock').setAttribute('datetime',d.toISOString());$('greeting').textContent=hour<12?'GOOD MORNING':hour<18?'GOOD AFTERNOON':'GOOD EVENING';$('date').textContent=d.toLocaleDateString('en-GB',{weekday:'long',day:'numeric',month:'long'});}
+ function clock(){var d=new Date(),hour=d.getHours();$('clock').textContent=('0'+hour).slice(-2)+':'+('0'+d.getMinutes()).slice(-2);$('clock').setAttribute('datetime',d.toISOString());$('greeting').textContent=core.greeting(hour,config.greetingName);$('date').textContent=d.toLocaleDateString('en-GB',{weekday:'long',day:'numeric',month:'long'});}
  function openModal(title,html){lastFocus=document.activeElement;$('modal-title').textContent=title;$('modal-content').innerHTML=html;$('modal').classList.remove('hidden');var first=$('modal-content').querySelector('button');(first||$('modal-close')).focus();}
  function closeModal(){$('modal').classList.add('hidden');if(lastFocus&&document.contains(lastFocus))lastFocus.focus();else focusApp();}
  function action(id,label,primary){return '<button class="action'+(primary?' primary':'')+'" id="'+id+'">'+label+'</button>';}

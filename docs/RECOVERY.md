@@ -9,7 +9,7 @@ Choose **Glass Home → Settings → Open LG Home**. The original LG Home packag
 From the configured checkout on your computer:
 
 ```sh
-scripts/tv-ssh '/media/internal/glass-home/integration/recover.sh'
+node scripts/ssh.cjs /media/internal/glass-home/integration/recover.sh
 ```
 
 This command:
@@ -28,14 +28,14 @@ If restoring the native input reports an error, the recovery script still restor
 Use the matching private checkout and the Home code verified for your remote:
 
 ```sh
-npm run provision -- --home-key-code 773
+node setup.cjs --integrate --home-key-code 773
 ```
 
 This preserves the original backups and refuses to overwrite a different photo-access key. It enables native startup registration and reinstates the Home binding. Check the TV after completion.
 
 ## What to keep safe
 
-Back up `.local/` securely. It contains the SSH key, pinned host key, device configuration and private photo-access key. The TV also retains:
+Back up `.local/` securely. It contains the pinned host key, device configuration and private photo-access key. The wizard references your existing SSH private key; back up that key separately too. Older source installations may also store their SSH key inside `.local`. The TV also retains:
 
 | Path | Purpose |
 | --- | --- |

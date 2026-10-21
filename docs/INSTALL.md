@@ -1,81 +1,113 @@
-# Install LGGlassUI
+# From download to Glass Home
 
-Full integration is an advanced installation for an **already rooted LG webOS TV**. Only the LG CX configuration in [compatibility](COMPATIBILITY.md) has been verified. This project does not root the TV and does not install or modify the root exploit.
+The release includes a guided setup tool and a ready-built TV app. **No Git, npm install or LG developer CLI is needed.**
 
-## 1. Establish recovery access first
+You need an **already rooted LG webOS TV with webOSbrew**, a working root SSH key, and a computer on the same network with [Node.js 22 or newer](https://nodejs.org/en/download) and OpenSSH. Windows users can use PowerShell with the OpenSSH Client installed; macOS and Linux include or provide OpenSSH through their normal system tools.
 
-You need:
+Only the LG CX configuration in [compatibility](COMPATIBILITY.md) has been tested. Rooting is separate: consult [webOSbrew's rooting guide](https://www.webosbrew.org/rooting/) for your model and firmware. This installer does not root TVs or set up SSH. Keep the original LG Home installed and verify your SSH recovery access after a restart.
 
-- A compatible rooted TV with Homebrew Channel/webOSbrew startup hooks.
-- Persistent **root SSH using a private key**, independently tested after a reboot.
-- The original LG Home application still installed.
-- Node.js 22+ on your computer and LG's [webOS CLI](https://webostv.developer.lge.com/develop/tools/cli-installation), including `ares-package` on PATH.
-- Node.js at `/usr/bin/node` on the TV; version 8.12.0 was tested.
-- A verified Home key code for your remote: **773 on the tested CX**.
+## 1. Download and open setup
 
-Do not reinstall LG Developer Mode on a persistent webOSbrew-rooted installation. Follow the rooting project's own maintenance and recovery guidance.
+Download **LGGlassUI-v1.2.0-setup.zip** from the [latest release](https://github.com/PaulButtle/LGGlassUI/releases/latest), extract it, and open a terminal inside the extracted `LGGlassUI-v1.2.0` folder.
 
-## 2. Configure this checkout
+```sh
+node setup.cjs
+```
+
+Answer four short prompts:
+
+| Prompt | What to enter |
+| --- | --- |
+| TV IP address | Find it in your TV's network settings |
+| SSH port | The port of your existing root SSH connection; often 22 or 2222 |
+| SSH private key | The path to the private key you already use to connect to the TV |
+| Greeting names | Optional, for example `Alex and Sam`; leave blank for a generic greeting |
+
+On the first connection, SSH may ask you to trust a host fingerprint. Compare it with your existing trusted TV connection before accepting. Setup then pins it for future connections. If your key uses a passphrase, load it into your SSH agent first so you do not have to enter it for each command.
+
+Setup verifies the release files, checks root access, installs the app and local photo service, generates a unique photo-access key, and opens Glass Home. The first install leaves Home-button and startup replacement disabled, so you can try the dashboard first. Existing replacement settings are preserved during updates.
+
+**Your TV needs webOSbrew startup hooks, `/usr/bin/node` (Node 8.12.0 was tested), Luna services and an unused numeric user ID 6861 for the photo service.** Setup checks the required paths and rejects an existing account using that ID on first install.
+
+## 2. Try it on the TV
+
+Open the app shortcuts, TV Settings, and **Settings → Open LG Home**. Open Glass Home again from LG's app list. For photos, choose **Settings → Photo collection**, visit the displayed address on your phone or computer, and enter the private key shown on the TV. Choose **Frame → Start Frame** to display your collection.
+
+The default nine app IDs are UK/CX defaults. For another region, use a source checkout and edit `app/config.js` before packaging. Do not edit the release ZIP's verified payload in place.
+
+## 3. Make it your Home screen (optional)
+
+Once the dashboard works, and you have verified the Home key code and native input support on your model:
+
+```sh
+node setup.cjs --integrate --home-key-code 773
+```
+
+**773 is the verified code for the tested CX remote, not a universal LG key code.** Other models are unverified. Integration checks for native input storage and the original LG Home, downloads two pinned/checksummed input-hook components, and backs up the previous Home binding and startup input before enabling the replacement.
+
+Press Home, switch to HDMI and back, then check standby/wake and cold startup. Native startup is firmware-specific; successful installation alone does not prove the visible startup experience. LG's own power-on sequence still takes time.
+
+## Updates and personalisation
+
+Download and extract the next setup ZIP, then run `node setup.cjs` again. You can copy your `.local` folder into the new extraction to retain the trusted connection and settings. Keep the referenced SSH private key in place. With a fresh setup folder, root SSH securely retrieves the existing TV's photo key and greeting instead of creating new ones. Photos and recovery backups stay on the TV.
+
+Change only the greeting during an update with:
+
+```sh
+node setup.cjs --name "Alex and Sam"
+```
+
+Use `--name ""` in a compatible shell, or enter `-` at the interactive greeting prompt, to return to a generic greeting. Each greeting follows the TV's local time: morning before noon, afternoon before 18:00, then evening.
+
+For a noninteractive install using an already pinned host key:
+
+```sh
+node setup.cjs --host TV_IP --port 22 --key /path/to/private_key
+```
+
+Check the release and connection without changing TV files:
+
+```sh
+node setup.cjs --check
+```
+
+This still saves the local connection information and may prompt to trust an SSH fingerprint. Checksums detect damaged or changed files; obtain the ZIP and published checksums from this project's GitHub release.
+
+## Recovery
+
+From your configured setup folder:
+
+```sh
+node scripts/ssh.cjs /media/internal/glass-home/integration/recover.sh
+```
+
+This disables the replacement, restores the saved Home binding and startup preference, and opens LG Home. Photos remain on the TV. Full instructions: [Recovery](RECOVERY.md).
+
+Setup does not remove apps, change picture settings, disable OLED protection, or modify webOSbrew's rooting/SSH configuration. If setup stops, read its error before retrying. An integration failure requests recovery automatically; a failed app install does not enable replacement.
+
+## Common setup issues
+
+| Message / symptom | Next step |
+| --- | --- |
+| `node` or `ssh` not found | Install Node.js 22+ or OpenSSH, then open a new terminal |
+| Connection refused / timeout | Turn on the TV; check the address, port and existing root SSH access |
+| Permission denied | Select the matching private key and load passphrase-protected keys into your SSH agent |
+| Host key changed | Verify the new fingerprint independently; do not bypass host-key checking |
+| Different installation key | Use the matching `.local` backup, or a fresh extracted folder to retrieve this TV's key |
+| Release checksum mismatch | Extract a fresh ZIP; do not modify release payload files |
+| App shortcut does not open | Check the installed app ID for your region/model using a source build |
+
+## Installing from source
+
+Maintainers and people customising app IDs need LG's [webOS CLI](https://webostv.developer.lge.com/develop/tools/cli-installation) (`ares-package` on PATH), in addition to Node and SSH:
 
 ```sh
 git clone https://github.com/PaulButtle/LGGlassUI.git
 cd LGGlassUI
-mkdir -p .local
-chmod 700 .local
-```
-
-Place your existing TV SSH private key at `.local/glass-tv-ed25519` and set permissions to `600`. Save the verified SSH host-key entry in `.local/tv-known-hosts`. Verify the fingerprint against your already trusted TV connection; do not disable host-key checking.
-
-Set the address for the current shell:
-
-```sh
-export LG_TV_ADDRESS="YOUR_TV_IP"
-scripts/tv-ssh 'id'
-```
-
-Alternatively, save the address alone in `.local/tv-address`. A successful check must report `uid=0`.
-
-## 3. Confirm your application IDs
-
-Edit [`app/config.js`](../app/config.js) to match the apps installed on your TV. IDs vary by region and model. Keep the application ID `com.paulbuttle.glasshome` consistent across the app, integration and deployment scripts.
-
-The tested CX stock launcher is `com.webos.app.home`. Do not substitute `com.webos.app.fullhome` without checking your firmware's behaviour.
-
-## 4. Provision
-
-```sh
 npm test
-npm run provision -- --home-key-code 773
+node setup.cjs
 ```
 
-Use the code verified for your remote. Provisioning:
+Source setup builds a fresh public package, then personalises it on the TV. `npm run package` instead creates a **private** IPK in `dist/private/`; never share that package. `npm run package:public` creates a generic package in `dist/public/`.
 
-1. Checks the existing root connection and required TV paths.
-2. Generates a unique local photo-access key and refuses to overwrite a different TV installation key.
-3. Downloads two pinned native hook binaries and verifies their SHA-256 hashes.
-4. Creates the photo directory, runs its service as uid/gid 6861, and installs the app and integration files.
-5. Backs up the prior key binding and startup input, then registers Glass Home as the native startup input.
-6. Enables the Home binding and the dedicated webOSbrew startup hook.
-
-The script does **not** configure SSH, root the TV, remove apps, disable firmware updates, change picture settings or alter OLED protection. The numeric photo-service identity 6861 must be available for this use on your device.
-
-If provisioning fails after creating the disabled flag, the replacement remains disabled. Read the error and use the [recovery command](RECOVERY.md) before retrying. Keep `.local` in a secure backup; it contains the keys needed to administer and update this installation.
-
-## 5. Verify the real TV
-
-Check Home, all app shortcuts, TV Settings and Frame uploads. Verify that normal HDMI selection remains usable. Then test standby/wake, cold startup and **Settings → Open LG Home**. Native startup is firmware-specific, so a successful package installation alone is not sufficient.
-
-The photo manager address and private access key appear under **Settings → Photo collection**. Use a device on the same trusted home network.
-
-## Updates
-
-For an already provisioned television using this checkout's private configuration:
-
-```sh
-npm test
-npm run deploy
-```
-
-The deploy command requires the TV's explicit native installer `installed` event before replacing integration files. It uses SSH streaming because the tested Dropbear configuration lacks the SFTP subsystem required by the standard ares transfer path.
-
-`npm run package` builds a private IPK in `dist/`. Do not upload that IPK to GitHub releases: it contains this installation's photo access key.
+The standalone release `.ipk` is a generic app for experienced users with an existing compatible app installer. It does not install the photo service, Home hook or startup integration; use the setup ZIP for those features.

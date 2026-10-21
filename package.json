@@ -1,12 +1,15 @@
 {
   "name": "lgglassui",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "private": true,
   "scripts": {
     "test": "node --test tests/*.test.cjs",
     "preview": "node scripts/preview.cjs",
     "package": "node scripts/package.cjs",
     "deploy": "node scripts/deploy.cjs",
-    "provision": "node scripts/provision.cjs"
+    "provision": "node scripts/provision.cjs",
+    "setup": "node setup.cjs",
+    "package:public": "node scripts/package.cjs --public",
+    "release:build": "node scripts/release.cjs"
   }
 }

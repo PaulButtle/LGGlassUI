@@ -13,5 +13,6 @@
     return {interval:[30,60,120,300].indexOf(p.interval)>=0?p.interval:60,fit:p.fit==='cover'?'cover':'contain',duration:[15,30,60].indexOf(p.duration)>=0?p.duration:30,dim:[0.55,0.78,1].indexOf(p.dim)>=0?p.dim:0.78};
   }
   function nextPhoto(photos,index,failed){for(var n=1;n<=photos.length;n++){var i=(index+n)%photos.length;if(!failed[photos[i].id])return i;}return -1;}
-  return {savedFocus:savedFocus,moveFocus:moveFocus,preferences:preferences,nextPhoto:nextPhoto};
+  function greeting(hour,name){var text='Good '+(hour<12?'morning':hour<18?'afternoon':'evening');return text+(typeof name==='string'&&name.trim()?', '+name.trim():'');}
+  return {greeting:greeting,savedFocus:savedFocus,moveFocus:moveFocus,preferences:preferences,nextPhoto:nextPhoto};
 }));
