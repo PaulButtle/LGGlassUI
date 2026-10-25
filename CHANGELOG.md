@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.3.1 — 2026-10-25
+
+- Add Channel 4 beside ITV Hub in the quick-launch bar.
+- Remote navigation follows the configured app count, including all ten default shortcuts.
+
 ## 1.3.0 — 2026-10-21
 
 - Choose **LG Fireworks** or **Frame Photographs** in Glass Home Settings.

@@ -15,6 +15,7 @@
   disney:'Disney<span>+</span>',
   apple:'<svg viewBox="0 0 24 28" aria-hidden="true"><path fill="currentColor" d="M17.9 0c.2 2.4-1.4 5-3.8 5.6-.6-2.1 1.3-5.2 3.8-5.6zM20.7 14.8c0 4 3.3 5.3 3.3 5.3s-2.4 7.3-6 7.3c-1.7 0-2.3-1.1-4.7-1.1s-3.2 1.2-4.7 1.2C5 27.5 0 19.4 0 13.7 0 8 4 6 6.7 6c2 0 3.4 1.3 5.4 1.3S16 6 18 6c2.3 0 4.3 1 5.7 2.6-3 1.7-3 4.1-3 6.2z"/></svg>tv',
   itv:'itv',
+  channel4:'<svg viewBox="0 0 64 72" aria-hidden="true"><path fill="currentColor" d="M38 10l7-7v39h-7zM49 0l9 7-9 9zM49 21l9-9v37h-9zM34 14v12L10 50H0zM25 40h9v10H15zM0 54h45v7H0zM38 65h7v7h-7zM26 65h8v7h-8zM49 53h9v8h-9zM49 65h9v7h-9z"/></svg>',
   spotify:'<svg viewBox="0 0 64 64" aria-hidden="true"><circle cx="32" cy="32" r="30" fill="#65ce92"/><g fill="none" stroke="#163628" stroke-linecap="round"><path d="M15 24q19-8 37 3" stroke-width="5"/><path d="M18 34q16-6 31 3" stroke-width="4"/><path d="M21 43q12-4 24 2" stroke-width="3.5"/></g></svg>'
  };
  config.apps.forEach(function(app,i){var button=document.createElement('button');button.className='app-tile';button.setAttribute('aria-label','Open '+app.name);button.setAttribute('data-app',app.id);button.innerHTML='<span class="brand '+app.brand+'">'+logos[app.brand]+'</span><span class="tile-label"></span>';button.querySelector('.tile-label').textContent=app.name;button.addEventListener('focus',function(){selected=i;save('glass.focus',String(i));});button.addEventListener('click',function(){launch(app.id,app.name);});apps.appendChild(button);});
@@ -61,7 +62,7 @@
   if(frameActive){e.preventDefault();help();if(key==='Back')stopFrame();else if(key==='ArrowRight'){setPhoto(1);schedule();}else if(key==='ArrowLeft'){setPhoto(-1);schedule();}else if(key==='Enter'){paused=!paused;schedule();toast(paused?'Frame paused. The session timer is still running.':'Frame resumed.');}return;}
   if(!$('modal').classList.contains('hidden')){if(key==='Back'){e.preventDefault();closeModal();return;}var nodes=Array.prototype.slice.call($('modal').querySelectorAll('button:not([disabled])'));var i=nodes.indexOf(document.activeElement);if(['ArrowRight','ArrowDown','ArrowLeft','ArrowUp','Tab'].indexOf(key)>=0){e.preventDefault();var delta=key==='ArrowLeft'||key==='ArrowUp'||(key==='Tab'&&e.shiftKey)?-1:1;nodes[(i+delta+nodes.length)%nodes.length].focus();}return;}
   if(key==='Back'){e.preventDefault();focusApp();return;}var isApp=document.activeElement.classList.contains('app-tile');
-  if(isApp&&['ArrowLeft','ArrowRight'].indexOf(key)>=0){e.preventDefault();selected=core.moveFocus(selected,key,9,9);focusApp();}
+  if(isApp&&['ArrowLeft','ArrowRight'].indexOf(key)>=0){e.preventDefault();selected=core.moveFocus(selected,key,config.apps.length,config.apps.length);focusApp();}
   else if(isApp&&key==='ArrowUp'){e.preventDefault();$('frame-button').focus();}
   else if(!isApp&&key==='ArrowDown'){e.preventDefault();focusApp();}
   else if(!isApp&&(key==='ArrowLeft'||key==='ArrowRight')){e.preventDefault();(document.activeElement===$('frame-button')?$('settings-button'):$('frame-button')).focus();}

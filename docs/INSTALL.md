@@ -8,7 +8,7 @@ Only the LG CX configuration in [compatibility](COMPATIBILITY.md) has been teste
 
 ## 1. Download and open setup
 
-Download **LGGlassUI-v1.3.0-setup.zip** from the [latest release](https://github.com/PaulButtle/LGGlassUI/releases/latest), extract it, and open a terminal inside the extracted `LGGlassUI-v1.3.0` folder.
+Download **LGGlassUI-v1.3.1-setup.zip** from the [latest release](https://github.com/PaulButtle/LGGlassUI/releases/latest), extract it, and open a terminal inside the extracted `LGGlassUI-v1.3.1` folder.
 
 ```sh
 node setup.cjs
@@ -33,7 +33,7 @@ Setup verifies the release files, checks root access, installs the app and local
 
 Open the app shortcuts, TV Settings, and **Settings → Open LG Home**. Open Glass Home again from LG's app list. For photos, choose **Settings → Photo collection**, visit the displayed address on your phone or computer, and enter the private key shown on the TV. Choose **Frame → Start Frame** to display your collection.
 
-The default nine app IDs are UK/CX defaults. For another region, use a source checkout and edit `app/config.js` before packaging. Do not edit the release ZIP's verified payload in place.
+The default ten app IDs are UK/CX defaults. For another region, use a source checkout and edit `app/config.js` before packaging. Do not edit the release ZIP's verified payload in place.
 
 ## 3. Make it your Home screen (optional)
 

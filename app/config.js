@@ -8,4 +8,5 @@ window.DashboardConfig={greetingName:'',port:18765,token:'',tvAddress:'TV_IP_ADD
  {id:'com.disney.disneyplus-prod',name:'Disney+',brand:'disney'},
  {id:'com.apple.appletv',name:'Apple TV',brand:'apple'},
  {id:'com.fvp.itv',name:'ITV Hub',brand:'itv'},
+ {id:'com.channel4.ondemand',name:'Channel 4',brand:'channel4'},
  {id:'spotify-beehive',name:'Spotify',brand:'spotify'}]};

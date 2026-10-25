@@ -9,7 +9,7 @@ Other models, regions, firmware versions and native app IDs are unverified.
 ## Verified
 
 - The physical Home key opens Glass Home; key code 773 on this remote.
-- All nine default application IDs, TV Settings and stock LG Home return successful native launch responses. Plex was also checked as foreground. This does not certify account access or media playback in every service.
+- The original nine default application IDs, TV Settings and stock LG Home return successful native launch responses. Plex was also checked as foreground. Channel 4 (`com.channel4.ondemand`) was added in 1.3.1 and checked as foreground after opening its dashboard tile; directional navigation reached all ten shortcuts. This does not certify account access or media playback in every service.
 - The installed UI renders correctly on the TV. JavaScript readiness measured roughly 0.3–0.4 seconds; this excludes complete TV boot and image decoding.
 - A real uploaded 1672 × 941 photograph renders in Frame. The collection survives restart. Upload conversion, authentication, ordering and removal are covered by service/browser checks.
 - Original LG Home remains installed and was visually checked. Independent recovery restores stock Home routing.

@@ -16,7 +16,7 @@ flowchart LR
 
 ## TV application
 
-`app/` contains an offline HTML/CSS/JavaScript app targeting Chromium 68. It uses `PalmServiceBridge` to launch installed applications. The nine default IDs are configurable in `app/config.js`. Navigation and stored preferences are validated in `app/core.js`.
+`app/` contains an offline HTML/CSS/JavaScript app targeting Chromium 68. It uses `PalmServiceBridge` to launch installed applications. The ten default IDs are configurable in `app/config.js`. Navigation and stored preferences are validated in `app/core.js`.
 
 Photo access uses localhost port 18765. The Content Security Policy limits runtime connections to that local service; no remote fonts, tracking scripts, content feeds or recommendation APIs are loaded.
 

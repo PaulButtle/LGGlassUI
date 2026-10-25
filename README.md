@@ -15,7 +15,7 @@ Your favourite apps, your photographs, and room to breathe.
 
 [Explore the interface](#made-for-the-living-room) · [Try it locally](#try-it-locally) · [Install on your TV](docs/INSTALL.md) · [Recovery](docs/RECOVERY.md)
 
-<img src="docs/assets/dashboard.png" alt="Glass Home running on an LG CX: a dusk landscape, a large clock, and nine translucent app tiles" width="100%">
+<img src="docs/assets/dashboard.png" alt="Glass Home running on an LG CX: a dusk landscape, a large clock, and ten translucent app tiles including Channel 4" width="100%">
 
 **No dashboard ads** &nbsp; · &nbsp; **No analytics** &nbsp; · &nbsp; **No frontend framework** &nbsp; · &nbsp; **Local-first**
 
@@ -27,7 +27,7 @@ Glass Home keeps the screen calm: a full-screen landscape, a legible clock and a
 
 | A considered home | A personal frame |
 | --- | --- |
-| Nine native streaming-app shortcuts | Photographs stored on your TV |
+| Ten native streaming-app shortcuts | Photographs stored on your TV |
 | Directional remote and Magic Remote pointer | Upload from a phone or computer |
 | Direct access to TV Settings | Fit or fill, brightness and slideshow speed |
 | Original LG Home available for recovery | Pause, previous/next and timed sessions |
@@ -36,7 +36,7 @@ Glass Home keeps the screen calm: a full-screen landscape, a legible clock and a
 Your optional greeting follows the time of day: **Good evening, Alex and Sam**. Names stay in your private installation settings.
 
 **The default shelf**<br>
-Plex · YouTube · Netflix · BBC iPlayer · Prime Video · Disney+ · Apple TV · ITV Hub · Spotify
+Plex · YouTube · Netflix · BBC iPlayer · Prime Video · Disney+ · Apple TV · ITV Hub · Channel 4 · Spotify
 
 Change the names, order and installed app IDs in [`app/config.js`](app/config.js). The shortcuts open the TV's native apps; LGGlassUI does not proxy their content or manage streaming accounts.
 
@@ -72,7 +72,7 @@ npm test
 
 **Full Home-button and startup integration requires a rooted TV with webOSbrew.** This repository does not root your television or include a universal root exploit.
 
-1. Download and extract **LGGlassUI-v1.3.0-setup.zip** from the [latest release](https://github.com/PaulButtle/LGGlassUI/releases/latest).
+1. Download and extract **LGGlassUI-v1.3.1-setup.zip** from the [latest release](https://github.com/PaulButtle/LGGlassUI/releases/latest).
 2. Open a terminal in the extracted folder and run `node setup.cjs`.
 3. Enter your TV address, SSH port/key and optional greeting names.
 
