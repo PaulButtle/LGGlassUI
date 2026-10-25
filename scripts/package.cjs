@@ -5,7 +5,7 @@ const root=path.resolve(__dirname,'..'),isPublic=process.argv.includes('--public
 const out=path.join(root,'dist',isPublic?'public':'private'),stage=path.join(out,'app');
 fs.mkdirSync(out,{recursive:true});fs.rmSync(stage,{recursive:true,force:true});
 // Local overrides are never copied into a distributable package.
-fs.cpSync(path.join(root,'app'),stage,{recursive:true,filter:source=>path.basename(source)!=='config.local.js'});
+fs.cpSync(path.join(root,'app'),stage,{recursive:true,filter:source=>!['config.local.js','app-icons'].includes(path.basename(source))});
 let override='// Public package. The setup wizard writes private settings on the TV.\n';
 if(!isPublic){
  const local=path.join(root,'.local'),file=path.join(local,'private-config.json');fs.mkdirSync(local,{recursive:true,mode:0o700});

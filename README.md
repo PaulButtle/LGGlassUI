@@ -40,6 +40,8 @@ Plex · YouTube · Netflix · BBC iPlayer · Prime Video · Disney+ · Apple TV 
 
 Change the names, order and installed app IDs in [`app/config.js`](app/config.js). The shortcuts open the TV's native apps; LGGlassUI does not proxy their content or manage streaming accounts.
 
+**Authentic app artwork.** Setup copies each installed app's official PNG icon directly on your TV, preserving its original colours and background. There are no redrawn brand marks or runtime icon downloads. Re-run setup after an app changes its artwork. The browser preview and any missing icons use plain text; third-party icon files are not bundled in public packages.
+
 **Straight home.** On the tested LG CX, Glass Home is registered as LG's native startup input. There is no extra 12-second launch timer or HDMI-first handoff. Normal HDMI viewing remains available, and the original LG Home stays accessible for recovery. The television's own power-on sequence still takes time.
 
 > The dashboard has no advertising. Streaming services and the retained LG recovery interface still control their own content and ads.
@@ -72,7 +74,7 @@ npm test
 
 **Full Home-button and startup integration requires a rooted TV with webOSbrew.** This repository does not root your television or include a universal root exploit.
 
-1. Download and extract **LGGlassUI-v1.3.1-setup.zip** from the [latest release](https://github.com/PaulButtle/LGGlassUI/releases/latest).
+1. Download and extract **LGGlassUI-v1.3.2-setup.zip** from the [latest release](https://github.com/PaulButtle/LGGlassUI/releases/latest).
 2. Open a terminal in the extracted folder and run `node setup.cjs`.
 3. Enter your TV address, SSH port/key and optional greeting names.
 

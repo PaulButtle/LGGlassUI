@@ -6,19 +6,17 @@
  function read(k){try{return localStorage.getItem(k);}catch(e){return null;}}
  function save(k,v){try{localStorage.setItem(k,v);}catch(e){}}
  function api(route,options){options=options||{};options.headers=Object.assign({},options.headers,{'Authorization':'Bearer '+config.token});return new Promise(function(resolve,reject){var settled=false;var t=setTimeout(function(){settled=true;reject(Error('The photo library is not responding.'));},5000);fetch(base+route,options).then(function(r){return r.json().then(function(j){if(!r.ok)throw Error(j.error||'Photo library unavailable.');return j;});}).then(function(j){clearTimeout(t);if(!settled)resolve(j);},function(e){clearTimeout(t);if(!settled)reject(e);});});}
- var logos={
-  plex:'ple<svg viewBox="0 0 20 32" aria-hidden="true"><path d="M1 0h9l10 16-10 16H1l10-16z" fill="#e6b451"/></svg>',
-  youtube:'<svg viewBox="0 0 72 48" aria-hidden="true"><rect x="1" y="3" width="70" height="42" rx="12" fill="#f84845"/><path d="M29 13l20 11-20 11z" fill="#fff"/></svg>',
-  netflix:'N',
-  iplayer:'<span class="bbc-boxes"><span>B</span><span>B</span><span>C</span></span>iPLAYER',
-  prime:'prime video<svg viewBox="0 0 100 24" aria-hidden="true"><path d="M4 5Q45 30 91 3M80 3L94 1 92 13" fill="none" stroke="currentColor" stroke-width="5" stroke-linecap="round"/></svg>',
-  disney:'Disney<span>+</span>',
-  apple:'<svg viewBox="0 0 24 28" aria-hidden="true"><path fill="currentColor" d="M17.9 0c.2 2.4-1.4 5-3.8 5.6-.6-2.1 1.3-5.2 3.8-5.6zM20.7 14.8c0 4 3.3 5.3 3.3 5.3s-2.4 7.3-6 7.3c-1.7 0-2.3-1.1-4.7-1.1s-3.2 1.2-4.7 1.2C5 27.5 0 19.4 0 13.7 0 8 4 6 6.7 6c2 0 3.4 1.3 5.4 1.3S16 6 18 6c2.3 0 4.3 1 5.7 2.6-3 1.7-3 4.1-3 6.2z"/></svg>tv',
-  itv:'itv',
-  channel4:'<svg viewBox="0 0 64 72" aria-hidden="true"><path fill="currentColor" d="M38 10l7-7v39h-7zM49 0l9 7-9 9zM49 21l9-9v37h-9zM34 14v12L10 50H0zM25 40h9v10H15zM0 54h45v7H0zM38 65h7v7h-7zM26 65h8v7h-8zM49 53h9v8h-9zM49 65h9v7h-9z"/></svg>',
-  spotify:'<svg viewBox="0 0 64 64" aria-hidden="true"><circle cx="32" cy="32" r="30" fill="#65ce92"/><g fill="none" stroke="#163628" stroke-linecap="round"><path d="M15 24q19-8 37 3" stroke-width="5"/><path d="M18 34q16-6 31 3" stroke-width="4"/><path d="M21 43q12-4 24 2" stroke-width="3.5"/></g></svg>'
- };
- config.apps.forEach(function(app,i){var button=document.createElement('button');button.className='app-tile';button.setAttribute('aria-label','Open '+app.name);button.setAttribute('data-app',app.id);button.innerHTML='<span class="brand '+app.brand+'">'+logos[app.brand]+'</span><span class="tile-label"></span>';button.querySelector('.tile-label').textContent=app.name;button.addEventListener('focus',function(){selected=i;save('glass.focus',String(i));});button.addEventListener('click',function(){launch(app.id,app.name);});apps.appendChild(button);});
+ config.apps.forEach(function(app,i){
+  var button=document.createElement('button'),brand=document.createElement('span'),icon=document.createElement('img'),fallback=document.createElement('span'),label=document.createElement('span');
+  button.className='app-tile';button.setAttribute('aria-label','Open '+app.name);button.setAttribute('data-app',app.id);
+  brand.className='brand';brand.setAttribute('aria-hidden','true');fallback.className='brand-fallback';fallback.textContent=app.name;
+  icon.className='app-icon hidden';icon.alt='';icon.draggable=false;
+  icon.onload=function(){icon.classList.remove('hidden');fallback.classList.add('hidden');};
+  icon.onerror=function(){icon.classList.add('hidden');fallback.classList.remove('hidden');};
+  icon.src='assets/app-icons/'+encodeURIComponent(app.id)+'.png';
+  brand.appendChild(icon);brand.appendChild(fallback);label.className='tile-label';label.textContent=app.name;button.appendChild(brand);button.appendChild(label);
+  button.addEventListener('focus',function(){selected=i;save('glass.focus',String(i));});button.addEventListener('click',function(){launch(app.id,app.name);});apps.appendChild(button);
+ });
  function focusApp(){apps.children[selected].focus();}
  function toast(text){$('toast').textContent=text;$('toast').classList.remove('hidden');clearTimeout(toastTimer);toastTimer=setTimeout(function(){$('toast').classList.add('hidden');},5000);}
  function launch(id,name){toast('Opening '+name+'…');platform.launch(id).then(function(){$('toast').classList.add('hidden');},function(e){toast(e.message);});}

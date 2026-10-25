@@ -14,7 +14,7 @@ if(fs.existsSync('.local/private-config.json')){const p=JSON.parse(fs.readFileSy
 function copy(source,destination){
  const stat=fs.lstatSync(source);if(stat.isSymbolicLink())throw Error('Do not include symlinks in releases: '+source);
  if(stat.isDirectory()){fs.mkdirSync(destination,{recursive:true});for(const name of fs.readdirSync(source)){
-  if(name==='config.local.js')continue;
+  if(name==='config.local.js'||name==='app-icons')continue;
   if(name.startsWith('.')||name==='config.json'||name.endsWith('.log'))throw Error('Unexpected release file: '+path.join(source,name));
   copy(path.join(source,name),path.join(destination,name));
  }return;}

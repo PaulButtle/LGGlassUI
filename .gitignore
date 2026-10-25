@@ -4,6 +4,7 @@ dist/
 *.ipk
 .DS_Store
 app/config.local.js
+app/assets/app-icons/
 .env
 .env.*
 *.log

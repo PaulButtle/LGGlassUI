@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.3.2 — 2026-10-25
+
+- Replace approximate brand marks with authentic icons from the apps installed on the TV.
+- Setup copies official PNG artwork locally, preserving the original colours and backgrounds; missing artwork uses plain text.
+- Re-running setup refreshes the icons. Third-party icon files are excluded from public packages.
+
 ## 1.3.1 — 2026-10-25
 
 - Add Channel 4 beside ITV Hub in the quick-launch bar.

@@ -20,6 +20,8 @@ flowchart LR
 
 Photo access uses localhost port 18765. The Content Security Policy limits runtime connections to that local service; no remote fonts, tracking scripts, content feeds or recommendation APIs are loaded.
 
+During setup, `sync-app-icons.js` reads each configured app's installed metadata and copies its large PNG icon (or small icon fallback) into Glass Home's local assets. Source paths must resolve inside that app's directory; file size and dimensions are bounded. The UI displays the original pixels with plain text if an icon is unavailable. Generated icon assets are excluded from source control and packages; no image service or runtime network fetch is needed.
+
 ## Native startup and Home
 
 The app declares `supportGIP: true` and includes a large icon, allowing LG's External Input Manager to register it as an input application. `configure-startup.js enable` saves the previous input, registers Glass Home, and sets the next-start input through LG's native `setLastInput` API.
